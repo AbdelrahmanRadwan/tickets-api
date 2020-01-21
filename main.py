@@ -1,7 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
 from flask import Flask, jsonify, request
 from tickets_system.tickets_system import TicketsSystem
 
@@ -12,28 +8,40 @@ tickets_system = TicketsSystem()
 @app.route('/', methods=['GET'])
 def heartbeat():
     """
-    A dummy route to check if the endpoints is up or not!
+    A dummy route to check if the endpoints are up or not!
     :return:
     """
     return jsonify({})
 
 
-@app.route('/interviews_calendar/interviewee/available-times', methods=['GET', 'POST'])
-def available_times():
+@app.route('/ticket', methods=['GET'])
+def get_ticket():
     """
-    the interviewee's interface through the interviewer's schedule, from where he/she can view and select a slot
-    :return: return the assigned time or the whole available times
+        Retrieve a tickets
     """
-    req = request.get_json()
-    if request.method == 'GET':
-        response = interviews_calendar.get_available_slots()
-        return jsonify(response)
+    ticket_id = request.args.get('id')
+    response = tickets_system.get_ticket(ticket_id)
+    return jsonify(response)
 
-    elif request.method == 'POST':
-        interviewee = req["interviewee"]
-        slot_id = req["slot_id"]
-        response = interviews_calendar.set_interview(interviewee=interviewee, slot_id=slot_id)
-        return jsonify(response)
+
+@app.route('/ticket', methods=['POST'])
+def add_ticket():
+    """
+        Add/Generate a new ticket ot the system
+    """
+    response = tickets_system.add_ticket()
+
+    return jsonify(response)
+
+
+@app.route('/ticket', methods=['DELETE'])
+def invalidate_ticket():
+    """
+        Add/Generate a new ticket ot the system
+    """
+    ticket_id = request.args.get('id')
+    response = tickets_system.invalidate_ticket(ticket_id)
+    return jsonify(response)
 
 
 app.run(debug=False, port=8080, host='0.0.0.0')  # Running on http://0.0.0.0:8080/
