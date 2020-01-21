@@ -10,49 +10,35 @@ pip3 install -r requirements.txt
 python3 main.py
 ```
 Route based URL: http://0.0.0.0:8080/
-
-![System Design](https://github.com/AbdelrahmanRadwan/tickets-api/blob/master/design.png  "System Design")
-
-
-
-
+## Scalable System Design
+![System Design](https://github.com/AbdelrahmanRadwan/tickets-api/blob/master/system_design/design.png  "System Design")
 
 📖 API
 ================
-
-#### Examples:
-##### POST Request sample
+## Create a new ticket
 ```http request
-curl -X POST \
-  http://0.0.0.0:8080/interviews_calendar/interviewer/add-slots \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/json' \
-  -d '{"interviewers": ["Morgan", "Geni mardoc", "JC-Quillet"], "start_times": ["12-1-2017 22:30", "01-01-2018 10:30"]}'
+curl -X POST http://0.0.0.0:8080/ticket -H 'cache-control: no-cache' -H 'content-type: application/json'
+```
+*Response*
+```
+{
+"id":"22535006-3c3e-11ea-8e4c-8c1645e0f94e",
+"timestamp":1579604814.9747176
+}
 ```
 
-
+## Retrieve a ticket or all tickets
 ```http request
-curl -X GET \
-  http://0.0.0.0:8080/interviews_calendar/interviewee/available-times \
-  -H 'cache-control: no-cache'
+curl -X GET http://0.0.0.0:8080/ticket?id="22535006-3c3e-11ea-8e4c-8c1645e0f94e"
+```
+*Response*
+```
+{
+"tickets":[
+    {
+        "id":"22535006-3c3e-11ea-8e4c-8c1645e0f94e",
+        "timestamp":1579604814.9747176
+    }
+]}
 ```
 
-
-```http request
-curl -X POST \
-  http://0.0.0.0:8080/interviews_calendar/interviewee/available-times \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/json' \
-  -d '{
-	"interviewee": "interviewee name :)",
-	"slot_id": 1
-}'
-```
-
-
-```http request
-curl -X GET \
-  http://0.0.0.0:8080/interviews_calendar/admin/view-all \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/json'
-```
