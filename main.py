@@ -30,17 +30,26 @@ def add_ticket():
         Add/Generate a new ticket ot the system
     """
     response = tickets_system.add_ticket()
-
     return jsonify(response)
 
 
-@app.route('/ticket', methods=['DELETE'])
+@app.route('/ticket/invalidate', methods=['UPDATE'])
 def invalidate_ticket():
     """
         Add/Generate a new ticket ot the system
     """
     ticket_id = request.args.get('id')
     response = tickets_system.invalidate_ticket(ticket_id)
+    return jsonify(response)
+
+
+@app.route('/ticket/validate', methods=['UPDATE'])
+def validate_ticket():
+    """
+        Add/Generate a new ticket ot the system
+    """
+    ticket_id = request.args.get('id')
+    response = tickets_system.validate_ticket(ticket_id)
     return jsonify(response)
 
 

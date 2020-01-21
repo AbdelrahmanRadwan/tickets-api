@@ -15,4 +15,8 @@ class TestTicketsSystem(TestCase):
         # invalidate the ticket and check again
         self.assertEqual(tickets_system.invalidate_ticket(ticked_id)["valid"], False)
 
-
+    def test_add_tickets_get_tickets(self):
+        tickets_system = TicketsSystem()
+        for i in range(5):
+            tickets_system.add_ticket()
+        self.assertEqual(len(tickets_system.get_ticket(None)), 5)
